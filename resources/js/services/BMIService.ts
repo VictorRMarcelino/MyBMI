@@ -1,11 +1,11 @@
-import { IMC } from '@/types/imc';
+import { BMI } from '@/types/bmi';
 import { router } from '@inertiajs/vue3';
 import MessageService from './MessageService';
 import { Message } from '@/types/message';
 
-const IMCService = {
-    store: function(IMC: IMC) {
-        router.post('/imc/store', IMC, {
+const BMIService = {
+    store: function(BMI: BMI) {
+        router.post('/imc/store', BMI, {
             onSuccess: (result) => {
                 let messageOptions: Message = {
                     text: ""
@@ -25,4 +25,4 @@ const IMCService = {
     }
 }
 
-export default IMCService;
+export default BMIService;

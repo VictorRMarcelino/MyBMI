@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\IMCController;
+use App\Http\Controllers\BMIController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function() {
 
-    Route::name('imc.')->prefix('imc')->controller(IMCController::class)->group(function() {
+    Route::name('bmi.')->prefix('bmi')->controller(BMIController::class)->group(function() {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
         Route::put('/update', 'update')->name('update');

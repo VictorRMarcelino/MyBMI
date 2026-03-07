@@ -1,32 +1,32 @@
 <script setup lang="ts">
 
 import AppLayout from '@/layouts/AppLayout.vue';
-import { IMC } from '@/types/imc';
+import { BMI } from '@/types/bmi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ref } from 'vue';
-import IMCService from '@/services/IMCService';
+import BMIService from '@/services/BMIService';
 
 const props = defineProps<{
-    historyRegister: IMC[];
+    historyRegister: BMI[];
 }>();
 
 const height = ref(0);
 const weight = ref(0);
 const store = function() {
-    let IMC: IMC = {
+    let BMI: BMI = {
         height: height.value,
         weight: weight.value
     } 
-    IMCService.store(IMC);
+    BMIService.store(BMI);
 }
 
 </script>
 <template>
     <AppLayout>
-        <div class="IMC">
-            <div class="IMCCalc">
-                <div class="IMCCalcComponets">
+        <div class="BMI">
+            <div class="BMICalc">
+                <div class="BMICalcComponets">
                     <Input
                         id="height"
                         name="height"
@@ -45,9 +45,9 @@ const store = function() {
                     >Calcular</Button>
                 </div>
             </div>
-            <div class="IMCStats">
-                <div class="IMCHistory">
-                    <div class="IMCHistoryTitle">
+            <div class="BMIStats">
+                <div class="BMIHistory">
+                    <div class="BMIHistoryTitle">
                         <Span>History</Span>
                     </div>
                     <table>
@@ -61,15 +61,18 @@ const store = function() {
                         </tbody>
                     </table>
                 </div>
-                <div class="IMCGraph"></div>
+                <div class="BMIGraph">
+                    <div class="BMIGraphTitle">
+                        <span>Graph</span>
+                    </div>
+                </div>
             </div>
         </div>
     </AppLayout>
 </template>
 <style scoped>
 
-    .IMC {
-        margin: 5%;
+    .BMI {
         display: flex;
         justify-content: space-between;
         flex-direction: column;
@@ -80,23 +83,23 @@ const store = function() {
         gap: 1rem;
     }
 
-    .IMCCalc {
+    .BMICalc {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 1rem;
         border: 1px solid blue;
-        height: 100%;
+        height: 50%;
     }
 
-    .IMCCalcComponets {
+    .BMICalcComponets {
         width: 100%;
         display: flex;
         flex-direction: row;
         gap: 1rem;
     }
 
-    .IMCStats {
+    .BMIStats {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -105,16 +108,16 @@ const store = function() {
         height: 100%;
     }
 
-    .IMCHistory {
+    .BMIHistory {
         width: 100%;
         border: 1px solid green;
     }
 
-    .IMCHistoryTitle {
+    .BMIHistoryTitle, .BMIGraphTitle {
         text-align: center;
     }
 
-    .IMCGraph {
+    .BMIGraph {
         width: 100%;
         border: 1px solid yellow;
     }

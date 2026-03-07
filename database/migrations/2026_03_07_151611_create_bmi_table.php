@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('imc', function (Blueprint $table) {
+        Schema::create('bmi', function (Blueprint $table) {
             $table->id();
             $table->decimal('height', 1);
             $table->decimal('weight');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('imc');
+        Schema::dropIfExists('bmi');
     }
 };

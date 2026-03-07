@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Imc;
-use Illuminate\Http\Request;
+use App\Models\BMI;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 /**
- * IMC Controller
+ * BMI Controller
  * @author Victor Ramos <httpsvictorramos@gmail.com>
  * @since 06/03/2026
  */
-class IMCController extends Controller
+class BMIController extends Controller
 {
     /** Renderize the IMC view */
     public function index() {
@@ -35,7 +35,6 @@ class IMCController extends Controller
 
         $aAttributes['created_at'] = date('d/m/Y h:i:s');
         $aAttributes['user_id'] = $user_id;
-        IMC::create($aAttributes);
-        response();
+        BMI::create($aAttributes);
     }
 }

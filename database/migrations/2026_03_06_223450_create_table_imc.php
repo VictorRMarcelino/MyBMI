@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('imc', function (Blueprint $table) {
+            $table->id();
+            $table->decimal('height', 1);
+            $table->decimal('weight');
+            $table->decimal('result');
+            $table->timestamp('created_at');
+            $table->bigInteger('user_id');
+            $table->foreign(['user_id'])->references('user_id')->on('users');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('imc');
+    }
+};

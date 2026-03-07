@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function() {
 
-    Route::name('imc.')->prefix('imc')->controller(ImcController::class)->group(function() {
+    Route::name('imc.')->prefix('imc')->controller(IMCController::class)->group(function() {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
         Route::put('/update', 'update')->name('update');

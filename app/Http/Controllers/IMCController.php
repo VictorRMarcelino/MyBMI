@@ -2,32 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Imc;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 /**
  * IMC Controller
  * @author Victor Ramos <httpsvictorramos@gmail.com>
  * @since 06/03/2026
  */
-class ImcController extends Controller
+class IMCController extends Controller
 {
     /** Renderize the IMC view */
     public function index() {
-        Route::inertia('IMC', [
+        return Inertia::render('IMC', [
             'historyRegister' => []
         ]);
     }
 
+    /**
+     * Insert a new IMC item
+     * @param Request $oRequest
+     * @return void
+     */
     public function store(Request $oRequest) {
+        $user_id = Auth::id();
+        $aAttributes = $oRequest->validate([
+            "height" => 'required|numeric|min:0.1',
+            "wheight" => 'required|numeric|min:0.1'
+        ]);
 
-    }
-
-    public function update(Request $oRequest) {
-
-    }
-
-    public function delete(Request $oRequest) {
-        
+        $aAttributes['created_at'] = date('d/m/Y h:i:s');
+        $aAttributes['user_id'] = $user_id;
+        IMC::create($aAttributes);
+        response();
     }
 }

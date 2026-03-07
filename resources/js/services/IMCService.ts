@@ -6,14 +6,20 @@ import { Message } from '@/types/message';
 const IMCService = {
     store: function(IMC: IMC) {
         router.post('/imc/store', IMC, {
-            onSuccess: () => {
+            onSuccess: (result) => {
                 let messageOptions: Message = {
-                    text: "teste"
+                    text: ""
                 }
-                MessageService.info(messageOptions)
+                MessageService.info(messageOptions);
                 router.visit('/imc/', {
                     method: 'get'
                 })
+            },
+            onError: (errors) => {
+                let messageOptions: Message = {
+                    text: "deu erro pai"
+                }
+                MessageService.error(messageOptions);
             }
         });
     }

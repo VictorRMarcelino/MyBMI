@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('bmi', function (Blueprint $table) {
             $table->id();
-            $table->decimal('height', 1);
+            $table->decimal('height');
             $table->decimal('weight');
             $table->decimal('result');
             $table->timestamp('created_at');
-            $table->bigInteger('user_id');
-            $table->foreign(['user_id'])->references('user_id')->on('users');
+            $table->foreignId('user_id')->constrained();
         });
     }
 

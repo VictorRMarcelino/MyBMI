@@ -13,6 +13,8 @@ class BMI extends Model
 {
     protected $table = 'bmi';
 
+    const UPDATED_AT = null;
+
     protected $fillable = [
         'height',
         'weight',

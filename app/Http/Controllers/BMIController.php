@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BMIStoreRequest;
 use App\Models\BMI;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -16,8 +17,8 @@ class BMIController extends Controller
 {
     /** Renderize the IMC view */
     public function index() {
-        return Inertia::render('IMC', [
-            'historyRegister' => []
+        return Inertia::render('BMI', [
+            'historyRegister' => BMI::where('user_id', Auth::id())->get()
         ]);
     }
 
@@ -26,15 +27,22 @@ class BMIController extends Controller
      * @param Request $oRequest
      * @return void
      */
-    public function store(Request $oRequest) {
+    public function store(BMIStoreRequest $oRequest) {
         $user_id = Auth::id();
-        $aAttributes = $oRequest->validate([
-            "height" => 'required|numeric|min:0.1',
-            "wheight" => 'required|numeric|min:0.1'
-        ]);
+        $attributes = $oRequest->validated();
+        $attributes['created_at'] = date('d/m/Y h:i:s');
+        $attributes['user_id'] = $user_id;
+        $attributes['result'] = $this->calculateBodyMassIndex($attributes['height'], $attributes['weight']);
+        BMI::create($attributes);
+    }
 
-        $aAttributes['created_at'] = date('d/m/Y h:i:s');
-        $aAttributes['user_id'] = $user_id;
-        BMI::create($aAttributes);
+    /**
+     * Calculate the body mass index
+     * @param float $height
+     * @param float $weight
+     * @return float|int
+     */
+    private function calculateBodyMassIndex($height, $weight) {
+        return round($weight / (pow($height, 2)), 2);
     }
 }

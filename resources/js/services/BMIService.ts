@@ -5,17 +5,19 @@ import { Message } from '@/types/message';
 
 const BMIService = {
     store: function(BMI: BMI) {
-        router.post('/imc/store', BMI, {
+        debugger
+        router.post('/bmi/store', BMI, {
             onSuccess: (result) => {
                 let messageOptions: Message = {
                     text: ""
                 }
                 MessageService.info(messageOptions);
-                router.visit('/imc/', {
+                router.visit('/bmi/', {
                     method: 'get'
                 })
             },
             onError: (errors) => {
+                debugger
                 let messageOptions: Message = {
                     text: "deu erro pai"
                 }

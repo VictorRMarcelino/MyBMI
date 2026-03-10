@@ -13,6 +13,7 @@ const props = defineProps<{
 
 const height = ref(0);
 const weight = ref(0);
+
 const store = function() {
     let BMI: BMI = {
         height: height.value,
@@ -30,13 +31,17 @@ const store = function() {
                     <Input
                         id="height"
                         name="height"
-                        type="numeric"
+                        type="number"
+                        min="0.1"
+                        step="0.01"
                         v-model="height"
                     />
                     <Input
                         id="weight"
                         name="weight"
-                        type="numeric"
+                        type="number"
+                        min="0.1"
+                        step="0.01"
                         v-model="weight"
                     />
                     <Button
@@ -55,7 +60,19 @@ const store = function() {
                         <tbody v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
                             <tr>
                                 <td>
-                                    <span>teste</span>
+                                    <div class="BMIHistoryItem">
+                                        <div class="BMIHistoryHeader">
+                                            <div>
+                                                <span>{{ historyRegister.id }}</span>
+                                            </div>
+                                            <span>{{ historyRegister.created_at }}</span>
+                                        </div>
+                                        <span>{{ historyRegister.height }}</span>
+                                        <span>X</span>
+                                        <span>{{ historyRegister.weight }}</span>
+                                        <span>=</span>
+                                        <span>{{ historyRegister.result }}</span>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -115,6 +132,11 @@ const store = function() {
 
     .BMIHistoryTitle, .BMIGraphTitle {
         text-align: center;
+    }
+
+    .BMIHistoryItem {
+        width: 100%;
+        border: 1px solid black;
     }
 
     .BMIGraph {

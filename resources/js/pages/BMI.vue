@@ -3,6 +3,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BMI } from '@/types/bmi';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { ref } from 'vue';
 import BMIService from '@/services/BMIService';
@@ -28,26 +29,34 @@ const store = function() {
         <div class="BMI">
             <div class="BMICalc">
                 <div class="BMICalcComponets">
-                    <Input
-                        id="height"
-                        name="height"
-                        type="number"
-                        min="0.1"
-                        step="0.01"
-                        v-model="height"
-                    />
-                    <Input
-                        id="weight"
-                        name="weight"
-                        type="number"
-                        min="0.1"
-                        step="0.01"
-                        v-model="weight"
-                    />
-                    <Button
-                        type="submit"
-                        v-on:click="store()"
-                    >Calcular</Button>
+                    <div class="BMICalcComponetsItem">
+                        <Label for="height">Height</Label>
+                        <Input
+                            id="height"
+                            name="height"
+                            type="number"
+                            min="0.1"
+                            step="0.01"
+                            v-model="height"
+                        />
+                    </div>
+                    <div class="BMICalcComponetsItem">
+                        <Label for="weight">Weight</Label>
+                        <Input
+                            id="weight"
+                            name="weight"
+                            type="number"
+                            min="0.1"
+                            step="0.01"
+                            v-model="weight"
+                        />
+                    </div>
+                    <div>
+                        <Button
+                            type="submit"
+                            v-on:click="store()"
+                        >Calcular</Button>
+                    </div>
                 </div>
             </div>
             <div class="BMIStats">
@@ -55,28 +64,30 @@ const store = function() {
                     <div class="BMIHistoryTitle">
                         <Span>History</Span>
                     </div>
-                    <table>
-                        <thead></thead>
-                        <tbody v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
-                            <tr>
-                                <td>
-                                    <div class="BMIHistoryItem">
-                                        <div class="BMIHistoryHeader">
-                                            <div>
-                                                <span>{{ historyRegister.id }}</span>
+                    <div class="BMIHistoryContent">
+                        <table>
+                            <thead></thead>
+                            <tbody v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
+                                <tr>
+                                    <td>
+                                        <div class="BMIHistoryItem">
+                                            <div class="BMIHistoryHeader">
+                                                <div>
+                                                    <span>{{ historyRegister.id }}</span>
+                                                </div>
+                                                <span>{{ historyRegister.created_at }}</span>
                                             </div>
-                                            <span>{{ historyRegister.created_at }}</span>
+                                            <span>{{ historyRegister.height }}</span>
+                                            <span>X</span>
+                                            <span>{{ historyRegister.weight }}</span>
+                                            <span>=</span>
+                                            <span>{{ historyRegister.result }}</span>
                                         </div>
-                                        <span>{{ historyRegister.height }}</span>
-                                        <span>X</span>
-                                        <span>{{ historyRegister.weight }}</span>
-                                        <span>=</span>
-                                        <span>{{ historyRegister.result }}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="BMIGraph">
                     <div class="BMIGraphTitle">
@@ -95,7 +106,6 @@ const store = function() {
         flex-direction: column;
         width: 100%;
         height: 100%;
-        border: 1px solid red;
         padding: 1rem;
         gap: 1rem;
     }
@@ -105,15 +115,24 @@ const store = function() {
         justify-content: center;
         align-items: center;
         padding: 1rem;
-        border: 1px solid blue;
+        border: 1px solid gray;
         height: 50%;
+        border-radius: 10px;
     }
 
     .BMICalcComponets {
         width: 100%;
         display: flex;
         flex-direction: row;
+        justify-content: center;
+        align-items: center;
         gap: 1rem;
+    }
+
+    .BMICalcComponetsItem {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
     }
 
     .BMIStats {
@@ -127,11 +146,21 @@ const store = function() {
 
     .BMIHistory {
         width: 100%;
-        border: 1px solid green;
+        border: 1px solid grey;
+        border-radius: 10px;
     }
 
     .BMIHistoryTitle, .BMIGraphTitle {
         text-align: center;
+    }
+
+    .BMIHistoryContent, .BMIHistoryContent table {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .BMIHistoryContent table {
+        border-spacing: 1rem;
     }
 
     .BMIHistoryItem {
@@ -141,7 +170,8 @@ const store = function() {
 
     .BMIGraph {
         width: 100%;
-        border: 1px solid yellow;
+        border: 1px solid grey;
+        border-radius: 10px;
     }
 
 </style>

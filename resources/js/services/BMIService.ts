@@ -8,18 +8,18 @@ const BMIService = {
         debugger
         router.post('/bmi/store', BMI, {
             onSuccess: (result) => {
-                let messageOptions: Message = {
-                    text: ""
-                }
-                MessageService.info(messageOptions);
-                router.visit('/bmi/', {
-                    method: 'get'
-                })
-            },
-            onError: (errors) => {
                 debugger
                 let messageOptions: Message = {
-                    text: "deu erro pai"
+                    text: ''
+                }
+                MessageService.info(messageOptions);
+                // router.visit('/bmi/', {
+                //     method: 'get'
+                // })
+            },
+            onError: (errors) => {
+                let messageOptions: Message = {
+                    text: Object.values(errors)[0]
                 }
                 MessageService.error(messageOptions);
             }

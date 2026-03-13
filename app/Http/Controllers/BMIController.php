@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BMIStoreRequest;
 use App\Models\BMI;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,8 +17,10 @@ class BMIController extends Controller
 {
     /** Renderize the IMC view */
     public function index() {
+        $user = Auth::user();
+
         return Inertia::render('BMI', [
-            'historyRegister' => BMI::where('user_id', Auth::id())->get()
+            'historyRegister' => $user->bmi()->limit(10)->orderByDesc('created_at')->get()
         ]);
     }
 
@@ -31,12 +31,13 @@ class BMIController extends Controller
     public function store(BMIStoreRequest $oRequest) {
         $user_id = Auth::id();
         $attributes = $oRequest->validated();
-        $attributes['created_at'] = date('d/m/Y h:i:s');
+        $attributes['created_at'] = date('Y-m-d H:i:s');
         $attributes['user_id'] = $user_id;
         $attributes['result'] = $this->calculateBodyMassIndex($attributes['height'], $attributes['weight']);
         BMI::create($attributes);
         $bmi = $attributes['result'];
         $messageResult = sprintf('Your Body Mass Index (BMI) is: %f. You are classified as: %s', $bmi, $this->getBodyMassIndexClassification($bmi));
+        return redirect()->route('bmi.index')->with('message', $messageResult);
     }
 
     /**

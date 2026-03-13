@@ -7,9 +7,11 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { ref } from 'vue';
 import BMIService from '@/services/BMIService';
+import { Message } from '@/types/message';
 
 const props = defineProps<{
     historyRegister: BMI[];
+    message: Message;
 }>();
 
 const height = ref(0);

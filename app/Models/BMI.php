@@ -22,4 +22,12 @@ class BMI extends Model
         'created_at',
         'user_id'
     ];
+
+    /**
+     * Return the relationed user
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, BMI>
+     */
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

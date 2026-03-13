@@ -49,4 +49,12 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    /**
+     * Return the relationed BMI registers
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<BMI, User>
+     */
+    public function bmi() {
+        return $this->hasMany(BMI::class);
+    }
 }

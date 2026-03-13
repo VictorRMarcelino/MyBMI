@@ -1,21 +1,23 @@
 import { BMI } from '@/types/bmi';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import MessageService from './MessageService';
 import { Message } from '@/types/message';
 
 const BMIService = {
     store: function(BMI: BMI) {
-        debugger
         router.post('/bmi/store', BMI, {
-            onSuccess: (result) => {
+            onSuccess: () => {
                 debugger
-                let messageOptions: Message = {
-                    text: ''
+                const page = usePage();
+                const props = page.props as any;
+                const message = props.flash?.message;
+
+                if (message) {
+                    let messageOptions: Message = {
+                        text: message.text
+                    };
+                    MessageService.success(messageOptions);
                 }
-                MessageService.info(messageOptions);
-                // router.visit('/bmi/', {
-                //     method: 'get'
-                // })
             },
             onError: (errors) => {
                 let messageOptions: Message = {

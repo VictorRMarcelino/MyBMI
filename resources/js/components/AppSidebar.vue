@@ -11,13 +11,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import bmi from "@/routes/bmi";
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Body Mass Index (BMI)',
-        href: dashboard(),
+        href: bmi.index.url(),
         icon: LayoutGrid,
     },
 ];

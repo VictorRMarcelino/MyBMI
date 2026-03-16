@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BMIStoreRequest;
+use App\Http\Resources\BMIResource;
 use App\Models\BMI;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,9 +20,10 @@ class BMIController extends Controller
     /** Renderize the IMC view */
     public function index() {
         $user = Auth::user();
+        $historyRegister = $user->bmi()->limit(5)->orderByDesc('created_at')->get();
 
         return Inertia::render('BMI', [
-            'historyRegister' => $user->bmi()->limit(10)->orderByDesc('created_at')->get()
+            'historyRegister' => BMIResource::collection($historyRegister)->collection
         ]);
     }
 

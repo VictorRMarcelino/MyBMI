@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BMIStoreRequest;
 use App\Http\Resources\BMIResource;
 use App\Models\BMI;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\BMIService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,6 +17,17 @@ use Inertia\Inertia;
  */
 class BMIController extends Controller
 {
+
+    private $BMIService;
+
+    /**
+     * @inheritDoc
+     * @param BMIService $BMIService
+     */
+    public function __construct(BMIService $BMIService) {
+        $this->BMIService = $BMIService;
+    }
+
     /** Renderize the IMC view */
     public function index() {
         $user = Auth::user();
@@ -36,42 +47,10 @@ class BMIController extends Controller
         $attributes = $oRequest->validated();
         $attributes['created_at'] = date('Y-m-d H:i:s');
         $attributes['user_id'] = $user_id;
-        $attributes['result'] = $this->calculateBodyMassIndex($attributes['height'], $attributes['weight']);
+        $attributes['result'] = $this->BMIService->calculateBodyMassIndex($attributes['height'], $attributes['weight']);
         BMI::create($attributes);
         $bmi = $attributes['result'];
-        $messageResult = sprintf('Your Body Mass Index (BMI) is: %f. You are classified as: %s', $bmi, $this->getBodyMassIndexClassification($bmi));
+        $messageResult = sprintf('Your Body Mass Index (BMI) is: %f. You are classified as: %s', $bmi, $this->BMIService->getBodyMassIndexClassification($bmi));
         return redirect()->route('bmi.index')->with('message', $messageResult);
-    }
-
-    /**
-     * Calculate the body mass index
-     * @param float $height
-     * @param float $weight
-     * @return float|int
-     */
-    private function calculateBodyMassIndex($height, $weight) {
-        return round($weight / (pow($height, 2)), 2);
-    }
-
-    /**
-     * Return the classification indicated by the BMI
-     * @param float $bodyMassIndex
-     * @return string
-     */
-    private function getBodyMassIndexClassification($bodyMassIndex) {
-        switch (true) {
-            case ($bodyMassIndex < 18.5):
-                return 'Underweight';
-            case ($bodyMassIndex > 18.5 && $bodyMassIndex < 24.9):
-                return 'Healthy Weight';
-            case ($bodyMassIndex > 25 && $bodyMassIndex < 29.9):
-                return 'Overweight';
-            case ($bodyMassIndex > 30 && $bodyMassIndex < 34.9):
-                return 'Obesity I';
-            case ($bodyMassIndex > 35 && $bodyMassIndex < 39.9):
-                return 'Obesity II';
-            default:
-                return 'Obesity III (Very Severe/Morbid)';
-        }
     }
 }

@@ -5,14 +5,47 @@ import { BMI } from '@/types/bmi';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import BMIService from '@/services/BMIService';
 import { Message } from '@/types/message';
+import { Bar } from 'vue-chartjs';
+import type { ChartData } from 'chart.js';
 
 const props = defineProps<{
     historyRegister: BMI[];
     message: Message;
 }>();
+
+const chartData = computed<ChartData<'bar'>>(() => {
+  return {
+    labels: props.historyRegister.map(reg => 
+      reg.created_at ? new Date(reg.created_at).toLocaleDateString() : ''
+    ),
+    datasets: [
+      {
+        label: 'IMC por Registro',
+        backgroundColor: '#10b981',
+        // O "?? 0" garante que o tipo seja 'number' e não 'number | undefined'
+        data: props.historyRegister.map(reg => reg.result ?? 0), 
+        borderRadius: 4,
+      }
+    ]
+  };
+});
+
+const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: 'BMI'
+            }
+        }
+    }
+};
 
 const height = ref(0);
 const weight = ref(0);
@@ -83,7 +116,7 @@ const store = function() {
                                     <td>{{ historyRegister.height }}</td>
                                     <td>{{ historyRegister.weight }}</td>
                                     <td>{{ historyRegister.result }}</td>
-                                    <td>{{ historyRegister.id }}</td>
+                                    <td>{{ historyRegister.classification }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -92,6 +125,13 @@ const store = function() {
                 <div class="BMIGraph">
                     <div class="BMIGraphTitle">
                         <span>Graph</span>
+                    </div>
+                    <div class="BMIGraphChart">
+                        <Bar 
+                            v-if="props.historyRegister.length > 0"
+                            :data="chartData" 
+                            :options="chartOptions" 
+                        />
                     </div>
                 </div>
             </div>

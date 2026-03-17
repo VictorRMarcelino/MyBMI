@@ -4,4 +4,5 @@ export type BMI = {
     weight: number;
     created_at?: string;
     result?: number;
+    classification?: string;
 }

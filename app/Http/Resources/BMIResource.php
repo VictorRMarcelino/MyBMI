@@ -2,11 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Services\BMIService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BMIResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -14,12 +16,15 @@ class BMIResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $BMIService = app(BMIService::class);
+        $formattedResult = round($this->result, 2);
         return [
             'id' => $this->id,
             'height' => $this->height,
             'weight' => $this->weight,
             'created_at' => $this->created_at->format("d/m/Y h:i:s"),
-            'result' => round($this->result, 2)
+            'result' => $formattedResult,
+            'classification' => $BMIService->getBodyMassIndexClassification($formattedResult)
         ];
     }
 }

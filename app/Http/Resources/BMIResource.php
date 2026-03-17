@@ -19,7 +19,7 @@ class BMIResource extends JsonResource
             'height' => $this->height,
             'weight' => $this->weight,
             'created_at' => $this->created_at->format("d/m/Y h:i:s"),
-            'result' => $this->result
+            'result' => round($this->result, 2)
         ];
     }
 }

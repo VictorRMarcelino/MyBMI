@@ -68,35 +68,22 @@ const store = function() {
                     </div>
                     <div class="BMIHistoryContent">
                         <table>
-                            <thead></thead>
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Height</th>
+                                    <th>Weight</th>
+                                    <th>Result</th>
+                                    <th>Classification</th>
+                                </tr>
+                            </thead>
                             <tbody v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
                                 <tr>
-                                    <td>
-                                        <div class="BMIHistoryItem">
-                                            <Input name="id", type="hidden">{{ historyRegister.id }}</Input>
-                                            <div class="BMIHistoryItemDate">
-                                                <span>{{ historyRegister.created_at }}</span>
-                                            </div>
-                                            <div class="BMIHistoryItemContent">
-                                                <div class="BMIHistoryItemContentHeight">
-                                                    <span>Height:</span>
-                                                    <span>{{ historyRegister.height }}</span>
-                                                </div>
-                                                <span>|</span>
-                                                <div class="BMIHistoryItemContentWeight">
-                                                    <span>Weight:</span>
-                                                    <span>{{ historyRegister.weight }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="BMIHistoryItemResult">
-                                                <span>{{ historyRegister.result }}</span>
-                                                <span>|</span>
-                                                <div class="BMIHistoryItemResultClassification">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <td>{{ historyRegister.created_at }}</td>
+                                    <td>{{ historyRegister.height }}</td>
+                                    <td>{{ historyRegister.weight }}</td>
+                                    <td>{{ historyRegister.result }}</td>
+                                    <td>{{ historyRegister.id }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -174,17 +161,14 @@ const store = function() {
 
     .BMIHistoryContent table {
         border-spacing: 1rem;
+        border-collapse: collapse
     }
 
-    .BMIHistoryItem {
-        width: 100%;
+    .BMIHistoryContent table th,
+    .BMIHistoryContent table td {
+        text-align: center;
         border: 1px solid black;
-    }
-
-    .BMIHistoryItemContent {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+        padding: 0.3rem;
     }
 
     .BMIGraph {

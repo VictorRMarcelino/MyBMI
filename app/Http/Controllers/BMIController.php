@@ -23,7 +23,7 @@ class BMIController extends Controller
         $historyRegister = $user->bmi()->limit(5)->orderByDesc('created_at')->get();
 
         return Inertia::render('BMI', [
-            'historyRegister' => BMIResource::collection($historyRegister)->collection
+            'historyRegister' => BMIResource::collection($historyRegister)->resolve()
         ]);
     }
 
@@ -50,7 +50,7 @@ class BMIController extends Controller
      * @return float|int
      */
     private function calculateBodyMassIndex($height, $weight) {
-        return round($weight / (pow($height, 2)), 1);
+        return round($weight / (pow($height, 2)), 2);
     }
 
     /**

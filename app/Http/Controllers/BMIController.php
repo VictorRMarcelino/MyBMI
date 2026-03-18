@@ -45,7 +45,6 @@ class BMIController extends Controller
     public function store(BMIStoreRequest $oRequest) {
         $user_id = Auth::id();
         $attributes = $oRequest->validated();
-        $attributes['created_at'] = date('Y-m-d H:i:s');
         $attributes['user_id'] = $user_id;
         $attributes['result'] = $this->BMIService->calculateBodyMassIndex($attributes['height'], $attributes['weight']);
         BMI::create($attributes);

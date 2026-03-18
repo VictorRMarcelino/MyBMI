@@ -8,29 +8,45 @@ import { Input } from '@/components/ui/input';
 import { computed, ref } from 'vue';
 import BMIService from '@/services/BMIService';
 import { Message } from '@/types/message';
-import { Bar } from 'vue-chartjs';
+import { Line } from 'vue-chartjs';
 import type { ChartData } from 'chart.js';
+import { 
+  Chart as ChartJS, 
+  Title, 
+  Tooltip, 
+  Legend, 
+  LineElement,
+  PointElement,
+  CategoryScale, 
+  LinearScale 
+} from 'chart.js';
+
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
 const props = defineProps<{
     historyRegister: BMI[];
     message: Message;
 }>();
 
-const chartData = computed<ChartData<'bar'>>(() => {
-  return {
-    labels: props.historyRegister.map(reg => 
-      reg.created_at ? new Date(reg.created_at).toLocaleDateString() : ''
-    ),
-    datasets: [
-      {
-        label: 'IMC por Registro',
-        backgroundColor: '#10b981',
-        // O "?? 0" garante que o tipo seja 'number' e não 'number | undefined'
-        data: props.historyRegister.map(reg => reg.result ?? 0), 
-        borderRadius: 4,
-      }
-    ]
-  };
+const chartData = computed<ChartData<'line'>>(() => {
+    let historyRegister = props.historyRegister.reverse();
+    return {
+        labels: historyRegister.map(reg => 
+            reg.created_at ? new Date(reg.created_at).toLocaleDateString() : ''
+        ),
+        datasets: [
+            {
+                label: 'BMI Evolution',
+                borderColor: '#10b981',
+                backgroundColor: '#10b981',  
+                data: props.historyRegister.map(reg => reg.result ?? 0),
+                tension: 0.3,                
+                pointRadius: 5,              
+                pointHoverRadius: 8,         
+                fill: false                  
+            }
+        ]
+    };
 });
 
 const chartOptions = {
@@ -90,7 +106,7 @@ const store = function() {
                         <Button
                             type="submit"
                             v-on:click="store()"
-                        >Calcular</Button>
+                        >Calculate</Button>
                     </div>
                 </div>
             </div>
@@ -127,7 +143,7 @@ const store = function() {
                         <span>Graph</span>
                     </div>
                     <div class="BMIGraphChart">
-                        <Bar 
+                        <Line 
                             v-if="props.historyRegister.length > 0"
                             :data="chartData" 
                             :options="chartOptions" 
@@ -139,6 +155,22 @@ const store = function() {
     </AppLayout>
 </template>
 <style scoped>
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    }
+
+    * {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
     .BMI {
         display: flex;
@@ -215,6 +247,10 @@ const store = function() {
         width: 100%;
         border: 1px solid grey;
         border-radius: 10px;
+    }
+
+    .BMIGraphChart {
+        height: 90%;
     }
 
 </style>

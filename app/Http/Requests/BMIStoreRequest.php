@@ -27,8 +27,8 @@ class BMIStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "height" => 'required|numeric|min:0.1',
-            "weight" => 'required|numeric|min:0.1'
+            "height" => 'required|numeric|min:0.1|decimal:2',
+            "weight" => 'required|numeric|min:0.1|decimal:2'
         ];
     }
 }

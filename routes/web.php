@@ -12,7 +12,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
 });
 
-Route::middleware(['auth', 'verified'])->group(function() {
+Route::middleware(['auth'])->group(function() {
 
     Route::name('bmi.')->prefix('bmi')->controller(BMIController::class)->group(function() {
         Route::get('/', 'index')->name('index');

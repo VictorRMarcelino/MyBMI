@@ -7,7 +7,6 @@ const BMIService = {
     store: function(BMI: BMI) {
         router.post('/bmi/store', BMI, {
             onSuccess: () => {
-                debugger
                 const page = usePage();
                 const props = page.props as any;
                 const message = props.flash?.message;

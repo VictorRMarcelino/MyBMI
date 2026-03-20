@@ -11,3 +11,20 @@
 ## PHP 8.4.2
 ## Laravel 12.53.0
 ## Vue 3.5.29
+
+# Como clonar o repositório/How to clone the repo
+## Português/Portuguese:
+### Na raiz do projeto, crie um arquivo .env. Copie os dados do arquivo .env.example e clone para o seu .env. Configure os dados conforme necessário
+### Execute os seguintes comandos:
+#### npm install
+#### composer install
+#### php artisan key:generate
+
+# How to clone the repository
+
+## English:
+### In the project root, create a .env file. Copy the data from the .env.example file and clone it to your .env. Configure the data as needed.
+### Run the following commands:
+#### npm install
+#### composer install
+#### php artisan key:generate

@@ -31,7 +31,7 @@ class BMIController extends Controller
     /** Renderize the IMC view */
     public function index() {
         $user = Auth::user();
-        $historyRegister = $user->bmi()->limit(5)->orderByDesc('created_at')->get();
+        $historyRegister = $user->bmi()->orderByDesc('created_at')->limit(5)->get();
 
         return Inertia::render('BMI', [
             'historyRegister' => BMIResource::collection($historyRegister)->resolve()

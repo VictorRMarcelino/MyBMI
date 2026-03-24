@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\BMIService;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,5 +30,9 @@ class BMI extends Model
      */
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function getBodyMassIndexClassification() {
+        return app(BMIService::class)->getBodyMassIndexClassification($this->result);
     }
 }

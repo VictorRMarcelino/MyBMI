@@ -16,15 +16,13 @@ class BMIResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $BMIService = app(BMIService::class);
-        $formattedResult = round($this->result, 2);
         return [
             'id' => $this->id,
             'height' => $this->height,
             'weight' => $this->weight,
-            'created_at' => $this->created_at->format("d/m/Y h:i:s"),
-            'result' => $formattedResult,
-            'classification' => $BMIService->getBodyMassIndexClassification($formattedResult)
+            'created_at' => $this->created_at->format('d/m/Y H:i:s'),
+            'result' => $this->result,
+            'classification' => $this->getBodyMassIndexClassification()
         ];
     }
 }

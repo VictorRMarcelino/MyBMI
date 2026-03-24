@@ -29,17 +29,18 @@ const props = defineProps<{
 }>();
 
 const chartData = computed<ChartData<'line'>>(() => {
-    let historyRegister = props.historyRegister.reverse();
+    const historyRegister = [...props.historyRegister].reverse();
+
     return {
         labels: historyRegister.map(reg => 
-            reg.created_at ? new Date(reg.created_at).toLocaleDateString() : ''
+            reg.created_at ? new Date(reg.created_at) : ''
         ),
         datasets: [
             {
                 label: 'BMI Evolution',
                 borderColor: '#10b981',
                 backgroundColor: '#10b981',  
-                data: props.historyRegister.map(reg => reg.result ?? 0),
+                data: historyRegister.map(reg => reg.result ?? 0),
                 tension: 0.3,                
                 pointRadius: 5,              
                 pointHoverRadius: 8,         
@@ -105,7 +106,7 @@ const store = function() {
                     <div>
                         <Button
                             type="submit"
-                            v-on:click="store()"
+                            @click="store"
                         >Calculate</Button>
                     </div>
                 </div>
@@ -126,8 +127,8 @@ const store = function() {
                                     <th>Classification</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
-                                <tr>
+                            <tbody>
+                                <tr v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
                                     <td>{{ historyRegister.created_at }}</td>
                                     <td>{{ historyRegister.height }}</td>
                                     <td>{{ historyRegister.weight }}</td>

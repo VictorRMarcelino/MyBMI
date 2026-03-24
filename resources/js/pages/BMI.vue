@@ -33,7 +33,7 @@ const chartData = computed<ChartData<'line'>>(() => {
 
     return {
         labels: historyRegister.map(reg => 
-            reg.created_at ? new Date(reg.created_at) : ''
+            reg.created_at ? new Date(reg.created_at).toLocaleDateString() : ''
         ),
         datasets: [
             {
@@ -129,7 +129,7 @@ const store = function() {
                             </thead>
                             <tbody>
                                 <tr v-for="historyRegister in props.historyRegister" :key="historyRegister.id">
-                                    <td>{{ historyRegister.created_at }}</td>
+                                    <td>{{ historyRegister.created_at_formatted }}</td>
                                     <td>{{ historyRegister.height }}</td>
                                     <td>{{ historyRegister.weight }}</td>
                                     <td>{{ historyRegister.result }}</td>

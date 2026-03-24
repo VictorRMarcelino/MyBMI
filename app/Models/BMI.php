@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\BMIService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -32,6 +33,15 @@ class BMI extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getDateFormat()
+    {
+        return Carbon::ATOM; // ISO 8601 completo
+    }
+
+    /**
+     * Return the Classification of the BMI
+     * @return string
+     */
     public function getBodyMassIndexClassification() {
         return app(BMIService::class)->getBodyMassIndexClassification($this->result);
     }

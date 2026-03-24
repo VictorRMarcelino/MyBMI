@@ -20,7 +20,8 @@ class BMIResource extends JsonResource
             'id' => $this->id,
             'height' => $this->height,
             'weight' => $this->weight,
-            'created_at' => $this->created_at->format('d/m/Y H:i:s'),
+            'created_at' => $this->created_at,
+            'created_at_formatted' => $this->created_at->setTimezone('America/Sao_Paulo')->format('d/m/Y H:i:s'),
             'result' => $this->result,
             'classification' => $this->getBodyMassIndexClassification()
         ];
